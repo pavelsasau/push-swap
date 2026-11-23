@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -141,5 +142,49 @@ func sortFive(a *[]int) { // сортируем четыре или пять ч�
 	for len(b) > 0 { // возвращаем числа из B
 		stack.Pa(a, &b)
 		fmt.Println("pa")
+	}
+}
+
+func getRanks(a []int) []int { // заменяем числа их рангами
+	sorted := make([]int, len(a)) // создаём копию массива
+	copy(sorted, a)               // копируем числа
+
+	sort.Ints(sorted) // сортируем копию для поиска рангов
+
+	ranks := make([]int, len(a)) // создаём массив рангов
+
+	for i := 0; i < len(a); i++ { // перебираем исходные числа
+		for j := 0; j < len(sorted); j++ { // ищем число в отсортированном массиве
+			if a[i] == sorted[j] { // если нашли совпадение
+				ranks[i] = j // сохраняем ранг
+				break        // выходим из внутреннего цикла
+			}
+		}
+	}
+
+	return ranks // возвращаем ранги
+}
+
+func radixSort(a *[]int) { // сортируем большие наборы чисел
+	*a = getRanks(*a) // заменяем числа рангами
+
+	b := []int{} // создаём пустой стек B
+	n := len(*a) // запоминаем количество чисел
+
+	for bit := 0; (n-1)>>bit > 0; bit++ { // перебираем биты
+		for i := 0; i < n; i++ { // проверяем все числа
+			if ((*a)[0]>>bit)&1 == 0 { // если текущий бит равен 0
+				stack.Pb(a, &b) // переносим число в B
+				fmt.Println("pb")
+			} else { // если текущий бит равен 1
+				stack.Ra(a) // прокручиваем стек A
+				fmt.Println("ra")
+			}
+		}
+
+		for len(b) > 0 { // возвращаем числа из B
+			stack.Pa(a, &b)
+			fmt.Println("pa")
+		}
 	}
 }
