@@ -59,6 +59,25 @@ func main() {
 	if len(a) == 4 || len(a) == 5 { // если четыре или пять чисел
 		sortFive(&a)
 	}
+
+	if len(a) == 2 { // если два числа
+		if a[0] > a[1] {
+			stack.Sa(a)
+			fmt.Println("sa")
+		}
+	}
+
+	if len(a) == 3 { // если три числа
+		sortThree(&a)
+	}
+
+	if len(a) == 4 || len(a) == 5 { // если четыре или пять чисел
+		sortFive(&a)
+	}
+
+	if len(a) > 5 { // если чисел больше пяти
+		radixSort(&a) // запускаем Radix Sort
+	}
 }
 
 // SORT THREE
