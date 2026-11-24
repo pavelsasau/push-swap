@@ -45,11 +45,13 @@ func main() {
 		a = append(a, num) // добавляем число в A
 	}
 
+	if isSorted(a) { // проверяем, отсортированы ли числа
+		return // если да, ничего не выводим
+	}
+
 	if len(a) == 2 { // если два числа
-		if a[0] > a[1] {
-			stack.Sa(a) // меняем числа местами
-			fmt.Println("sa")
-		}
+		stack.Sa(a) // меняем их местами
+		fmt.Println("sa")
 	}
 
 	if len(a) == 3 { // если три числа
@@ -60,29 +62,14 @@ func main() {
 		sortFive(&a)
 	}
 
-	if len(a) == 2 { // если два числа
-		if a[0] > a[1] {
-			stack.Sa(a)
-			fmt.Println("sa")
-		}
-	}
-
-	if len(a) == 3 { // если три числа
-		sortThree(&a)
-	}
-
-	if len(a) == 4 || len(a) == 5 { // если четыре или пять чисел
-		sortFive(&a)
-	}
-
-	if len(a) > 5 { // если чисел больше пяти
-		radixSort(&a) // запускаем Radix Sort
+	if len(a) > 5 { // если больше пяти чисел
+		radixSort(&a)
 	}
 }
 
 // SORT THREE
 func sortThree(a *[]int) { // сортируем три числа
-	if len(*a) != 3 {
+	if len(*a) != 3 { // если чисел не три
 		return
 	}
 
@@ -90,7 +77,7 @@ func sortThree(a *[]int) { // сортируем три числа
 	y := (*a)[1] // второе число
 	z := (*a)[2] // третье число
 
-	if x < y && y < z { // уже отсортировано
+	if x < y && y < z { // числа уже отсортированы
 		return
 	}
 
@@ -206,4 +193,14 @@ func radixSort(a *[]int) { // сортируем большие наборы ч�
 			fmt.Println("pa")
 		}
 	}
+}
+
+func isSorted(a []int) bool { // проверяем порядок чисел
+	for i := 0; i < len(a)-1; i++ { // перебираем соседние числа
+		if a[i] > a[i+1] { // если порядок неправильный
+			return false
+		}
+	}
+
+	return true // все числа стоят правильно
 }
